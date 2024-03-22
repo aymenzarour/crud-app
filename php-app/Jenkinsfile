@@ -1,0 +1,69 @@
+pipeline {
+    environment {
+        dockerimagenameapp = "aymenzarour/phpcrudapp"
+        dockerImageapp = ""
+        
+        dockerimagenamedb = "aymenzarour/mysqldb-mcv"
+        dockerImagedb = ""
+    }
+
+    agent any
+
+    stages {
+        stage('Checkout Source') {
+            steps {
+                script {
+                    checkout([
+                        $class: 'GitSCM', 
+                        branches: [[name: 'main']],  
+                        doGenerateSubmoduleConfigurations: false, 
+                        userRemoteConfigs: [[
+                            credentialsId: 'github-token', 
+                            url: 'https://github.com/aymenzarour/php-app-ci-cd'
+                        ]]
+                    ])
+                }
+            }
+        }
+
+        stage('Build images') {
+            steps {
+                script {
+                    dockerImageapp = docker.build dockerimagenameapp, "-f php-app/app/Dockerfile php-app/app"
+                }
+                script {
+                    dockerImagedb = docker.build dockerimagenamedb, "-f php-app/sql/Dockerfile php-app/sql"
+                }
+            }
+        }
+
+        stage('Pushing Images') {
+            environment {
+                registryCredential = 'dockerhublogin'
+            }
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        dockerImageapp.push("latest")
+                    }
+                }
+                
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        dockerImagedb.push("latest")
+                    }
+                }
+                
+            }
+        }
+        
+        stage('Deploying App to Kubernetes') {
+            steps {
+                script {
+                    sh 'kubectl apply -f k8s-manifests/.'
+                }
+            }
+        }
+
+    }
+}
