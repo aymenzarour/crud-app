@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mysql-dev-params
-  namespace: phpcrudapp
-data:
-  mysql-user: melvincv
-  mysql-db: crudapi
-  mysql-host: mysqldb
