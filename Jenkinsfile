@@ -29,10 +29,10 @@ pipeline {
         stage('Build images') {
             steps {
                 script {
-                    dockerImageapp = docker.build dockerimagenameapp, "-f app/Dockerfile php-app/app"
+                    dockerImageapp = docker.build dockerimagenameapp, "-f app/Dockerfile app"
                 }
                 script {
-                    dockerImagedb = docker.build dockerimagenamedb, "-f sql/Dockerfile php-app/sql"
+                    dockerImagedb = docker.build dockerimagenamedb, "-f sql/Dockerfile sql"
                 }
             }
         }
