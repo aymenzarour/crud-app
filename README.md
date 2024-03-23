@@ -15,6 +15,6 @@ This repository contains the source code for the CRUD (Create, Read, Update, Del
 1.  Checkout Source: This stage retrieves the source code from the repository.
 2.  Build images: Builds Docker images for both the PHP application and MySQL database using Dockerfiles.
 3.  Pushing Images: Pushes the built Docker images to Docker Hub.
-4.  Trigger Manifest Update: Triggers the Jenkins job `updatemanifest` to update Kubernetes manifests in the associated repository.
+4.  Trigger Manifest Update: Triggers the Jenkins job `updatemanifest` to update Kubernetes manifests in the associated repository with the tag of the last builded image.
 
 Kubernetes Manifest Repository: [crud-app-k8s-manifest](https://github.com/aymenzarour/crud-app-k8s-manifest)
