@@ -44,7 +44,7 @@
                                 echo "<thead>";
                                     echo "<tr>";
                                         echo "<th>#</th>";
-                                        echo "<th>Name</th>";
+                                        echo "<th>Namesss</th>";
                                         echo "<th>Address</th>";
                                         echo "<th>Salary</th>";
                                         echo "<th>Action</th>";
